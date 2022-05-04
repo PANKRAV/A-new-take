@@ -10,13 +10,23 @@ import numpy as np
 import pyautogui as pg
 
 #user defined
-import user
+from user import User
+
+
+#constants
+gameLoop = True
+
+
+
+
+
+
 
 def init():
     abspath = os.path.abspath(__file__)
     dirName = os.path.dirname(abspath)
     os.chdir(dirName)
-    
+
     dirs = os.listdir()
 
     if "setup" not in dirs:
@@ -28,21 +38,40 @@ def init():
 def main():
     init()
 
-    choice = input("1.New Player\n2.Select Player\n3.Just Play\n4.Exit\nchoice:")
 
 
-    while not isinstance(choice, int) or not (str(choice) in ["1", "2", "3", "4"]):
 
-        try:
-            choice = int(choice)
-            if not (choice in [1, 2, 3, 4]):
-                choice = int(input("Input needs to be a number between 1 and 4"))
+    while gameLoop:
+        choice = input("1.New Player\n2.Select Player\n3.Free Play\n4.Exit\nchoice:")
 
-        except ValueError:
-            choice = input("Input needs to be a number:")
 
-    
-    os.system("cls || clear")
+        while not isinstance(choice, int) or not (str(choice) in ["1", "2", "3", "4"]):
+
+            try:
+                choice = int(choice)
+                if not (choice in [1, 2, 3, 4]):
+                    choice = int(input("Input needs to be a number between 1 and 4"))
+
+            except ValueError:
+                choice = input("Input needs to be a number:")
+
+
+        os.system("cls || clear")
+
+
+
+        if choice == 1:
+            pass
+
+        elif choice == 2:
+            pass
+
+        elif choice == 3 :
+            pass
+
+        else:
+            pass
+
 
 
 
