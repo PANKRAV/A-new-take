@@ -61,7 +61,23 @@ def main():
 
 
         if choice == 1:
-            pass
+            os.chdir("data/userData")
+
+            dirs = os.listdir()
+
+            while True:
+
+                name = input("input name:")
+
+                if name not in dirs:
+                    User(name)
+                    break
+
+                else:
+                    print("user already exists")
+
+
+            os.system("cls || clear")
 
         elif choice == 2:
             pass
@@ -70,7 +86,7 @@ def main():
             pass
 
         else:
-            pass
+            sys.exit()
 
 
 

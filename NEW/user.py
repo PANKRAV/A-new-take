@@ -1,5 +1,7 @@
 import random
 import time
+import os
+import json
 
 
 
@@ -7,10 +9,19 @@ class User:
     user_count = 0
 
     def __init__(self, name : str):
+        dirs = os.listdir()
 
         self.name = name
         self.file = f"{self.name}.json"
         self.high_score = None
+
+        if self.file not in dirs:
+            _json = {"name" : self.name, "high score" : self.high_score}
+            _json = json.dumps(_json, indent = 4)
+
+            with open(self.file, mode = "w") as f:
+                f.write(_json)
+
 
         User.user_count += 1
 
@@ -22,6 +33,9 @@ class User:
             return f"{self.name}\' high score is:\n{self.high_score}"   
         else:
             return f"{self.name}\'s high score is:\n{self.high_score}"
+
+
+
 
 
 

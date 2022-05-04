@@ -6,6 +6,7 @@ except: pass
     
 
 os.chdir("data")
+os.mkdir("userData")
 
 with open("setting.json", mode = "w") as f:
     f.write(json.dumps({}))
