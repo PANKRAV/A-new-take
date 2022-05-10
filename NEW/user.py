@@ -4,10 +4,12 @@ import os
 import json
 import random
 
+from _utility import dir_reset
 
 
 class User:
     user_count = 0
+    user_data = dict({})
 
     def __init__(self, name : str):
         dirs = os.listdir()
@@ -33,8 +35,6 @@ class User:
         User.user_count += 1
 
 
-    
-
     def __str__(self) -> str:
         if self.name[-1].upper() == "S":
             return f"{self.name}\' high score is:\n{self.high_score}"   
@@ -42,7 +42,15 @@ class User:
             return f"{self.name}\'s high score is:\n{self.high_score}"
 
 
+    @staticmethod
+    def create_users():
 
+        dir_reset()
+        os.chdir("data/userData")
+        dirs = os.listdir()
+        names = [name.rstrip(".json") for name in dirs]
+        for name in names:
+            User.user_data[name] = User(name)
 
 
 
@@ -56,6 +64,10 @@ class Game:
         self.type = type
         self.turns = turns
         self.isover = False
+        if self.User == None:
+            self.free = True
+        else:
+            self.free = False
         self.duration = None
         self.points = 0
 
@@ -185,4 +197,37 @@ class Game:
         else:
             return False
 
-    
+
+
+    @classmethod
+    def setup_game(cls, user : User):
+        
+        print("Choose a game type\n1.addition\n2.#subtraction\n3.multiplication\n4.division")
+        _type = input("choice:")
+
+        while not isinstance(_type, int) or not (str(_type) in ["1", "2", "3", "4"]):
+
+            try:
+                _type = int(_type)
+                if not (_type in [1, 2, 3, 4]):
+                    _type = int(input("Input needs to be a number between 1 and 4"))
+
+            except ValueError:
+                _type = input("Input needs to be a number:")
+
+
+        diff = input("Choose a difficulty (choice needs to be a positive integer):")
+        while not ( isinstance(diff, int) or diff <= 0):
+            print("invalid choice")
+            diff = ("choice:")
+
+
+        _turns = input("Choose how many turns you want (choice needs to be a positive integer):")
+        while not ( isinstance(_turns, int) or _turns <= 0):
+            print("invalid choice")
+            _turns = ("choice:")
+        
+
+        return cls(user, diff, _type, _turns)
+
+        

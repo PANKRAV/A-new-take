@@ -1,6 +1,5 @@
 #default
 import json
-from posixpath import dirname
 import time
 import os
 import tkinter as tk
@@ -10,7 +9,8 @@ import numpy as np
 import pyautogui as pg
 
 #user defined
-from user import User
+from user import User, Game
+from _utility import dir_reset
 
 
 #constants
@@ -23,14 +23,18 @@ gameLoop = True
 
 
 def init():
-    abspath = os.path.abspath(__file__)
-    dirName = os.path.dirname(abspath)
-    os.chdir(dirName)
+    dir_reset()
 
     dirs = os.listdir()
 
     if "setup" not in dirs:
         os.system("python setup.py")
+
+    User.create_users()
+
+
+
+
 
 
 
@@ -69,7 +73,7 @@ def main():
 
                 name = input("input name:")
 
-                if name not in dirs:
+                if name not in User.user_data.keys():
                     User(name)
                     break
 
@@ -80,10 +84,20 @@ def main():
             os.system("cls || clear")
 
         elif choice == 2:
-            pass
+            name = input("Give player name:")
+
+            while name not in User.user_data.keys():
+               print("Player does not exist")
+               name = input("give another name:")
+
+
+            game = Game.setup_game(User.user_data[name])
+
+            
 
         elif choice == 3 :
-            pass
+            free_game = Game.setup_game(None)
+
 
         else:
             sys.exit()
