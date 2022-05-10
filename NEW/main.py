@@ -9,7 +9,8 @@ import numpy as np
 import pyautogui as pg
 
 #user defined
-from user import User, Game
+from user import User
+from game import Game
 from _utility import dir_reset
 
 
