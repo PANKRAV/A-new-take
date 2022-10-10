@@ -159,6 +159,8 @@ class Game:
 
 
 
+
+
     def calculate(self):
 
         if self.isover == True:
@@ -168,12 +170,16 @@ class Game:
             if self.User != None :
                 if score > self.User.high_score:
                     self.User._json["high score"] = score
+                    self.User.high_score = score
 
                     with open(self.User.file , mode = "w") as f:
                         f.write(json.dumps(self.User._json))
             return score
         else:
             return False
+
+
+
 
 
 
@@ -241,3 +247,17 @@ class Game:
         
 
         return cls(user, diff, _type, turns)
+
+
+
+
+    @classmethod
+    def load_json(cls, user : User, num : int) :
+        
+        return cls(...)
+        
+
+    
+
+    def json_pack(self) :
+        ...

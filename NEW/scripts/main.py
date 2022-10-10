@@ -82,7 +82,7 @@ def main():
 
             while True:
 
-                name = input("input name:")
+                name = input("input a name:")
 
                 if name not in User.user_data.keys():
                     User.user_data[name] = User(name)
@@ -102,7 +102,44 @@ def main():
                name = input("give another name:")
 
 
-            game = Game.setup_game(User.user_data[name])
+            current : User = User.user_data[name]
+
+            while True :
+                os.system("cls || clear")
+                print("1.New Game\n2.Load Game\n3.Create Game\n4.See High Score\n5.Back")
+                choice = input("choice:")
+
+                while True :
+                    try:
+                        choice= int(choice)
+
+                    except:
+                        choice = input("choice needs to be an integer:")
+                        continue
+
+                    if choice <= 0 :
+                        choice = input("choice needs to be a poistive integer:")
+                        continue
+
+                    if choice not in [1, 2, 3, 4, 5] :
+                        choice = input("choice needs to be a integer between 1 and 5:")
+                        continue
+                    break
+
+
+                if choice == 1 :
+                    game = Game.setup_game(current)
+                    game()
+
+                elif choice == 2 :
+                    custom = Game.setup_game(current)
+                    custom.json_pack()
+                
+                elif choice == 3 :
+                    ...
+
+                else:
+                    ...
 
             
 
