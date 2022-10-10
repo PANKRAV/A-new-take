@@ -50,15 +50,21 @@ def main():
         choice = input("1.New Player\n2.Select Player\n3.Free Play\n4.Exit\nchoice:")
 
 
-        while not isinstance(choice, int) or not (str(choice) in ["1", "2", "3", "4"]):
-
+        while True :
             try:
                 choice = int(choice)
-                if not (choice in [1, 2, 3, 4]):
-                    choice = int(input("Input needs to be a number between 1 and 4"))
+            except :
+                choice = input("choice needs to be an integer:")
+                continue
 
-            except ValueError:
-                choice = input("Input needs to be a number:")
+            if choice <= 0 :
+                choice = input("choice needs to be a poistive integer:")
+                continue
+
+            if choice not in [1, 2, 3, 4] :
+                choice = input("choice needs to be a integer between 1 and 4:")
+                continue
+            break
 
 
         os.system("cls || clear")

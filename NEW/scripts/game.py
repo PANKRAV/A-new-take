@@ -1,6 +1,7 @@
 import random
 import time
 import json
+from numpy import isin
 
 from user import User
 
@@ -163,12 +164,14 @@ class Game:
         if self.isover == True:
             score = int(self.diff*self.points/(self.duration/self.type/1000))
 
-            if score > self.User.high_score:
-                self.User._json["high score"] = score
 
-                with open(self.User.file , mode = "w") as f:
-                    f.write(json.dumps(self.User._json))
+            if self.User != None :
+                if score > self.User.high_score:
+                    self.User._json["high score"] = score
 
+                    with open(self.User.file , mode = "w") as f:
+                        f.write(json.dumps(self.User._json))
+            return score
         else:
             return False
 
@@ -176,62 +179,65 @@ class Game:
 
     @classmethod
     def setup_game(cls, user : User):
+
         
         print("Choose a game type\n1.addition\n2.#subtraction\n3.multiplication\n4.division")
         _type = input("choice:")
-
-        while not isinstance(_type, int) or not (str(_type) in ["1", "2", "3", "4"]):
-
+        while True :
             try:
                 _type = int(_type)
-                if not (_type in [1, 2, 3, 4]):
-                    _type = int(input("Input needs to be a number between 1 and 4"))
+            except:
+                _type = input("game type needs to be an integer:")
+                continue
+                            
+            if _type <= 0 :
+                _type = input("game type needs to be a positive integer:")
+                continue
 
-            except ValueError:
-                _type = input("Input needs to be a number:")
+            if _type not in [1, 2, 3, 4] :
+                _type = input("game type needs to be a postitive integer between 1 and 4:")
+                continue
+
+            break
+
+
+
 
         
-        diff = input("Choose a difficulty (choice needs to be a positive integer):")
-        while True :
-            check = True
-            try :
+        print("Choose a difficulty (choice needs to be a positive integer)")
+        diff = input("choice:")
+        while True :         
+            try:
                 diff = int(diff)
-            except :
-                check = False
-                diff = -1
-
-            if diff <= 0 :
-                check = False
+            except:
+                diff = input("diff type needs to be an integer:")
+                continue
             
-            if check:
-                del check
-                break
-            diff = ("diff needs to be a positive integer:")
+            if diff <= 0 :
+                diff = ("diff needs to be a positive integer:")
+                continue
+
+            break
 
 
-        
-#edwwwwwwwwwwwwwwwwwwwwwwww
-#
-#
-#
-#
-#
-        turns = input("Choose a number of turns (choice needs to be a positive integer):")
+
+
+
+
+        print("Choose a number of turns (choice needs to be a positive integer)")
+        turns = input("choice:")
         while True :
-            check = True
-            try :
+            try:
                 turns = int(turns)
-            except :
-                check = False
-                turns = -1
+            except:
+                turns = input("turns number needs to be an integer:")
+                continue
 
             if turns <= 0 :
-                check = False
-            
-            if turns:
-                del check
-                break
-            turns = ("number of turns needs to be a positive integer:")
+                turns = ("turns number needs to be a positive integer:")
+                continue
+
+            break
         
 
         return cls(user, diff, _type, turns)
