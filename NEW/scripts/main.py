@@ -167,7 +167,8 @@ def main():
 
                 elif choice == 4 :
                     print(str(current))
-                    
+                    input("continue:")
+
                 else:
                     break
             
