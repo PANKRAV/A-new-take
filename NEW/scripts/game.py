@@ -15,11 +15,11 @@ class AlreadyPlayed(Exception):
 
 class Game:
 
-    def __init__(self, user : User, diff : int, type : int, turns : int):
+    def __init__(self, user : User, diff : int, _type : int, turns : int):
 
         self.User = user
         self.diff = diff
-        self.type = type
+        self._type = _type
         self.turns = turns
         self.isover = False
         if self.User == None:
@@ -40,7 +40,7 @@ class Game:
             start_time = time.time()
 
             #addittion
-            if self.type == 1:
+            if self._type == 1:
                 for i in range(self.turns):
                     
                     x = random.randint(-50, 50)*self.diff
@@ -64,7 +64,7 @@ class Game:
                         self.points -= 2
 
             #subtraction
-            elif self.type == 2:
+            elif self._type == 2:
                 for i in range(self.turns):
 
                     x = random.randint(-50, 50)*self.diff
@@ -89,7 +89,7 @@ class Game:
 
 
             #multiplication
-            elif self.type == 3:
+            elif self._type == 3:
                 for i in range(self.turns):
 
                     x = random.randint(-10, 10)*self.diff
@@ -142,13 +142,15 @@ class Game:
                         self.points -= 2
 
 
-            self.duration = time.time() - start_time
+            
             self.isover = True
 
-            if self.free :
-                score = self.calculate()
-                print(f"Your score was {score}")
-                del score
+            
+            self.total_time = time.time() - start_time
+            avg_time = (self.total_time)/self.turns
+            score = self.calculate()
+            print(f"Your score was {score}\nYou completed your game in {self.total_time} with an avergae time spent per question of {avg_time}")
+            del score
 
 
         else:
@@ -164,12 +166,12 @@ class Game:
     def calculate(self):
 
         if self.isover == True:
-            score = int(self.diff*self.points/(self.duration/self.type/1000))
+            score = int(self.diff*self.points/(self.total_time/self._type/1000))
 
 
             if self.User != None :
                 if score > self.User.high_score:
-                    self.User._json["high score"] = score
+                    self.User.data = ["high score", score]
                     self.User.high_score = score
 
                     with open(self.User.file , mode = "w") as f:
@@ -253,11 +255,14 @@ class Game:
 
     @classmethod
     def load_json(cls, user : User, num : int) :
-        
-        return cls(...)
+        game = user.customs[num]
+        diff = game["diff"]
+        _type = game["_type"]
+        turns = game["turns"]
+        return cls(user, diff, _type, turns)
         
 
     
-
+    
     def json_pack(self) :
-        ...
+        self.User.customs.append({"diff" : self.diff, "_type" : self._type, "turns" : self.turns})

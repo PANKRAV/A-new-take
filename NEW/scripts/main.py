@@ -2,7 +2,7 @@
 import json
 import time
 import os
-import tkinter as tk
+#import tkinter as tk
 import sys
 import matplotlib.pyplot as plt
 import numpy as np
@@ -29,7 +29,9 @@ def init():
     dirs = os.listdir()
 
     if "setup" not in dirs:
+        os.chdir("scripts")
         os.system("python setup.py")
+        os.chdir("..")
 
     User.create_users()
 
@@ -132,11 +134,12 @@ def main():
                     game()
 
                 elif choice == 2 :
-                    custom = Game.setup_game(current)
-                    custom.json_pack()
+                    ...
                 
                 elif choice == 3 :
-                    ...
+                    custom = Game.setup_game(current)
+                    custom.json_pack()
+                    current._json = current.data
 
                 else:
                     ...

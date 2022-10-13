@@ -1,6 +1,7 @@
 import os
 import json
 
+os.chdir("..")
 try:  os.mkdir("data")
 except: pass
     

@@ -4,4 +4,4 @@ debug.txt
 
 NEW/__pycache__
 NEW/scripts/__pycache__
-data/**
+**/data
