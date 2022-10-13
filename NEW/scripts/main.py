@@ -75,7 +75,8 @@ def main():
 
         if choice == 1:
             try:
-                os.chdir("../data/userData")
+                dir_reset()
+                os.chdir("data/userData")
 
             except:
                 print(os.listdir()) #debugging
@@ -113,7 +114,7 @@ def main():
 
                 while True :
                     try:
-                        choice= int(choice)
+                        choice = int(choice)
 
                     except:
                         choice = input("choice needs to be an integer:")
@@ -134,16 +135,41 @@ def main():
                     game()
 
                 elif choice == 2 :
-                    ...
+                    _filter = list()
+                    for idx, _game in enumerate(current.customs, start = 1) :
+                        _filter.append(idx)
+                        game_name = _game["name"]
+                        print(f"{idx}.{game_name}")
+
+                    inner_choice = input("choice:")
+                    while True :
+                        try:
+                            inner_choice = int(inner_choice)
+
+                        except:
+                            inner_choice = input("choice needs to be an integer:")
+                            continue
+
+
+                        if inner_choice not in _filter :
+                            inner_choice = input(f"choice needs to be a integer between 1 and {_filter[-1]}:")
+                            continue
+                        break
+
+                    game = current.customs[inner_choice - 1]
+                    game = Game(current, game["diff"], game["_type"], game["turns"])
+                    game()
                 
                 elif choice == 3 :
-                    custom = Game.setup_game(current)
+                    custom = Game.setup_game(current, True)
                     custom.json_pack()
                     current._json = current.data
 
+                elif choice == 4 :
+                    print(str(current))
+                    
                 else:
-                    ...
-
+                    break
             
 
         elif choice == 3 :

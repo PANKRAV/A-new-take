@@ -1,5 +1,12 @@
 {
     "name": "egw",
     "high score": 0,
-    "customs": []
+    "customs": [
+        {
+            "diff": 1,
+            "_type": 1,
+            "turns": 1,
+            "name": "ey"
+        }
+    ]
 }

@@ -33,6 +33,9 @@ class User:
 
             with open(self.file, mode = "w") as f:
                 f.write(w_json)
+
+        self.high_score = json.loads(self._json)["high score"]
+        self.customs = json.loads(self._json)["customs"]
                 
                 
 

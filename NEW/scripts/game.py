@@ -15,7 +15,7 @@ class AlreadyPlayed(Exception):
 
 class Game:
 
-    def __init__(self, user : User, diff : int, _type : int, turns : int):
+    def __init__(self, user : User, diff : int, _type : int, turns : int, name : str = None):
 
         self.User = user
         self.diff = diff
@@ -26,6 +26,7 @@ class Game:
             self.free = True
         else:
             self.free = False
+        self.name = name
         self.duration = None
         self.points = 0
 
@@ -149,8 +150,9 @@ class Game:
             self.total_time = time.time() - start_time
             avg_time = (self.total_time)/self.turns
             score = self.calculate()
-            print(f"Your score was {score}\nYou completed your game in {self.total_time} with an avergae time spent per question of {avg_time}")
+            print(f"Your score was {score}\nYou completed your game in {self.total_time:.2f} with an avergae time spent per question of {avg_time:.2f}")
             del score
+            input("continue:")
 
 
         else:
@@ -171,11 +173,10 @@ class Game:
 
             if self.User != None :
                 if score > self.User.high_score:
-                    self.User.data = ["high score", score]
                     self.User.high_score = score
+                    self.User._json = self.User.data
 
-                    with open(self.User.file , mode = "w") as f:
-                        f.write(json.dumps(self.User._json))
+                    
             return score
         else:
             return False
@@ -186,7 +187,7 @@ class Game:
 
 
     @classmethod
-    def setup_game(cls, user : User):
+    def setup_game(cls, user : User, iscustom : bool = False):
 
         
         print("Choose a game type\n1.addition\n2.#subtraction\n3.multiplication\n4.division")
@@ -247,6 +248,14 @@ class Game:
 
             break
         
+        if iscustom :
+            name = input("Chose a name for your game :")
+            user_names = [game["name"] for game in user.customs]
+            while name in user_names :
+                print("Name already exists")
+                name = input("Give another name:")
+
+            return cls(user, diff, _type, turns, name)
 
         return cls(user, diff, _type, turns)
 
@@ -265,4 +274,4 @@ class Game:
     
     
     def json_pack(self) :
-        self.User.customs.append({"diff" : self.diff, "_type" : self._type, "turns" : self.turns})
+        self.User.customs.append({"diff" : self.diff, "_type" : self._type, "turns" : self.turns, "name" : self.name})
